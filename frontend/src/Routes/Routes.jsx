@@ -14,9 +14,9 @@ export const Routes = () => {
                 <Route path='/Dashboard' render={() => <Dashboard />} />
                 <Route path='/Details' render={() => <Details />} />
                 {/* <Route
-            path="/CheckoutPage"
-            render={(props) => <CheckoutPage {...props} />}
-          /> */}
+                    path="/CheckoutPage"
+                    render={(props) => <CheckoutPage {...props} />}
+                /> */}
             </Switch>
         </>
     );
