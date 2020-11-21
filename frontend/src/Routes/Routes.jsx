@@ -12,11 +12,11 @@ export const Routes = () => {
                 <Route path='/' exact render={() => <Login />} />
                 <Route path='/SignUp' render={() => <Register />} />
                 <Route path='/Dashboard' render={() => <Dashboard />} />
-                <Route path='/Details' render={() => <Details />} />
-                {/* <Route
-                    path="/CheckoutPage"
-                    render={(props) => <CheckoutPage {...props} />}
-                /> */}
+                <Route
+                    path='/Details'
+                    render={(props) => <Details {...props} />}
+                />
+                {/* <Route path='/' render={() => <Dashboard />} /> */}
             </Switch>
         </>
     );

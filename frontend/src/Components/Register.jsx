@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.div`
     overflow-x: hidden;
@@ -18,7 +19,8 @@ const Image = styled.img`
     padding-left: 0px;
 `;
 
-const LoginWrapper = styled.div`
+const RegisterWrapper = styled.div`
+    border-left: 17px solid darkgrey;
     div {
         // border: 1px solid red;
     }
@@ -30,19 +32,29 @@ const RememberMe = styled.div`
 `;
 
 const Register = () => {
+    let [name, setName] = useState('');
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
     const history = useHistory();
 
     const handleSignIn = () => {
         history.push({
             pathname: '/',
-            // isAddrSelected: flag,
+            // data: data,
         });
     };
 
     const handleSignUp = () => {
-        history.push({
-            pathname: '/Dashboard',
-        });
+        axios
+            .post('http://localhost:5000/api/user/register', {
+                email: email,
+                password: password,
+                name: name,
+            })
+            .then((res) => history.push('/Dashboard'))
+            .catch((err) => {
+                alert(err.response.data);
+            });
     };
 
     return (
@@ -55,8 +67,8 @@ const Register = () => {
                             alt='Tech Company'
                         />
                     </div>
-                    <LoginWrapper className='col-5 '>
-                        <div className='row row-cols-1 p-5'>
+                    <RegisterWrapper className='col-5 '>
+                        <div className='row row-cols-1 p-4'>
                             <div className='col align-self-center'>
                                 <img
                                     src='Icons/shield.svg'
@@ -76,6 +88,7 @@ const Register = () => {
                                     type='text'
                                     className='form-control'
                                     placeholder='Name'
+                                    onChange={(e) => setName(e.target.value)}
                                 />
                             </div>
                             <div className='col input-group input-group-lg pt-3 pb-0'>
@@ -88,6 +101,7 @@ const Register = () => {
                                     type='text'
                                     className='form-control'
                                     placeholder='Email'
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className='col input-group input-group-lg pt-3 pb-0'>
@@ -100,6 +114,9 @@ const Register = () => {
                                     type='text'
                                     className='form-control'
                                     placeholder='password'
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                 />
                             </div>
                             <RememberMe className='col pt-3 pb-0 text-left text-muted'>
@@ -135,7 +152,7 @@ const Register = () => {
                                 </div>
                             </div>
                         </div>
-                    </LoginWrapper>
+                    </RegisterWrapper>
                 </div>
             </div>
         </Wrapper>

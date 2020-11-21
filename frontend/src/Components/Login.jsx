@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const Wrapper = styled.div`
     overflow-x: hidden;
@@ -19,6 +20,7 @@ const Image = styled.img`
 `;
 
 const LoginWrapper = styled.div`
+    border-left: 17px solid darkgrey;
     div {
         // border: 1px solid red;
     }
@@ -30,13 +32,20 @@ const RememberMe = styled.div`
 `;
 
 const Login = () => {
+    let [email, setEmail] = useState('');
+    let [password, setPassword] = useState('');
     const history = useHistory();
 
     const handleSignIn = () => {
-        history.push({
-            pathname: '/Dashboard',
-            // isAddrSelected: flag,
-        });
+        axios
+            .post('http://localhost:5000/api/user/login', {
+                email: email,
+                password: password,
+            })
+            .then((res) => history.push('/Dashboard'))
+            .catch((err) => {
+                alert(err.response.data);
+            });
     };
 
     const handleSignUp = () => {
@@ -56,7 +65,7 @@ const Login = () => {
                         />
                     </div>
                     <LoginWrapper className='col-5 '>
-                        <div className='row row-cols-1 p-5'>
+                        <div className='row row-cols-1 p-4'>
                             <div className='col align-self-center'>
                                 <img
                                     src='Icons/shield.svg'
@@ -71,13 +80,14 @@ const Login = () => {
                             <div className='col input-group input-group-lg pt-3 pb-0'>
                                 <div className='input-group-prepend'>
                                     <div className='input-group-text'>
-                                        username
+                                        email
                                     </div>
                                 </div>
                                 <input
                                     type='text'
                                     className='form-control'
-                                    placeholder='Username'
+                                    placeholder='Email'
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <div className='col input-group input-group-lg pt-3 pb-0'>
@@ -90,6 +100,9 @@ const Login = () => {
                                     type='text'
                                     className='form-control'
                                     placeholder='password'
+                                    onChange={(e) =>
+                                        setPassword(e.target.value)
+                                    }
                                 />
                             </div>
                             <RememberMe className='col pt-3 pb-0 text-left text-muted'>
@@ -109,7 +122,7 @@ const Login = () => {
                                     Sign In
                                 </button>
                             </div>
-                            <div className='col mt-1'>
+                            <div className='col pt-1'>
                                 <div className='row justify-content-between'>
                                     <button
                                         type='button'
